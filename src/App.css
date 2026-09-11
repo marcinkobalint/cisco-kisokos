@@ -1,0 +1,557 @@
+/* ==========================================
+   1. GLOBÁLIS STÍLUSOK ÉS ALAPOK (RESET)
+   ========================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #0d1117;
+  color: #c9d1d9;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto; /* A böngésző saját, ablak széli görgetősávja */
+}
+
+.app-kontener {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================
+   2. WINDOWS METRO STYLE CSEMPÉS DASHBOARD
+   ========================================== */
+.dashboard-oldal {
+  position: relative; /* A jobb felső verziószám ehhez igazodik */
+  width: 100%;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: transparent;
+}
+
+/* Jobb felső sarokba rögzített verziószám */
+.top-version {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: #8b949e;
+  font-size: 0.85rem;
+  font-family: monospace;
+  letter-spacing: 1px;
+  opacity: 0.6;
+  user-select: none;
+}
+
+.dashboard-header {
+  margin-bottom: 40px;
+  text-align: center;
+  border-bottom: 2px solid rgba(0, 120, 215, 0.4);
+  padding-bottom: 20px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.dashboard-header h1 {
+  font-size: 2.8rem;
+  color: #ffffff;
+  font-weight: 300;
+  letter-spacing: -0.5px;
+  margin: 0 0 10px 0;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.dashboard-header p {
+  color: #8b949e;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.csempe-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Windows Metro Csempe alapszerkezet */
+.csempe {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  outline: none;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Átvillanó fénycsík effekt (Light Sweep) */
+.csempe::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  transition: left 0.5s ease;
+}
+
+.csempe:hover::before {
+  left: 100%;
+}
+
+/* Hover & Active mikro-interakciók */
+.csempe:hover {
+  transform: translateY(-4px) scale(1.01);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  filter: brightness(1.12);
+}
+
+.csempe:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Ikon + Függőleges Választóvonal */
+.csempe-ikon {
+  font-size: 2.2rem;
+  margin: 0;
+  line-height: 1;
+  padding-right: 18px;
+  margin-right: 18px;
+  border-right: 2px solid rgba(255, 255, 255, 0.25);
+  height: 55%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.csempe:hover .csempe-ikon {
+  transform: scale(1.08);
+  border-right-color: rgba(255, 255, 255, 0.55);
+}
+
+/* Szöveg elrendezése */
+.csempe-szoveg {
+  font-size: 0.9rem;
+  color: #ffffff;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  line-height: 1.25;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  text-align: left;
+  flex: 1;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+/* Metro Élénk Színgradiensek */
+.csempe-alap { background: linear-gradient(135deg, #0078d7, #004e8c); }
+.csempe-dhcp { background: linear-gradient(135deg, #e83b00, #9e2800); }
+.csempe-vlan { background: linear-gradient(135deg, #107c41, #0a4f29); }
+.csempe-ssh { background: linear-gradient(135deg, #8661c5, #553b82); }
+.csempe-etherchannel { background: linear-gradient(135deg, #d89600, #8c6100); }
+.csempe-ospf { background: linear-gradient(135deg, #484338, #26231d); }
+.csempe-nat { background: linear-gradient(135deg, #a82e2e, #6e1d1d); }
+.csempe-vpn { background: linear-gradient(135deg, #2cad84, #1c7056); }
+.csempe-acl { background: linear-gradient(135deg, #b8be28, #737813); }
+.csempe-staticroute { background: linear-gradient(135deg, #8a32cc, #571e82); }
+.csempe-portsecurity { background: linear-gradient(135deg, #59ad2c, #376e1a); }
+.csempe-stp { background: linear-gradient(135deg, #c72c72, #7d1a47); }
+.csempe-hsrp { background: linear-gradient(135deg, #2cad5d, #1a6e3a); }
+.csempe-ipv6 { background: linear-gradient(135deg, #2c64ad, #193d6e); }
+.csempe-wlan { background: linear-gradient(135deg, #3dad2c, #23691a); }
+.csempe-ntpcdp { background: linear-gradient(135deg, #2c91ad, #185a6e); }
+
+/* Reszponzív töréspontok */
+@media (max-width: 950px) {
+  .csempe-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 580px) {
+  .top-version {
+    top: 10px;
+    right: 15px;
+  }
+  .csempe-grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+
+/* ==========================================
+   3. BELSŐ TARTALMI OLDALAK SZERKEZETE
+   ========================================== */
+.tartalom-oldal {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh; /* Fixen a teljes képernyőt elfoglalja */
+  overflow: hidden;
+}
+
+.felso-navigacio {
+  background-color: #161b22;
+  padding: 15px 40px;
+  border-bottom: 1px solid #30363d;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.vissza-btn {
+  background-color: #21262d;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.vissza-btn:hover {
+  background-color: #30363d;
+  color: #58a6ff;
+  border-color: #58a6ff;
+}
+
+.aktualis-oldal-cim {
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+}
+
+
+/* ==========================================
+   4. BELSŐ TARTALOM ÉS GÖRGETÉSI ZÓNA (ATOMBIDTOS)
+   ========================================== */
+.tartalom {
+  flex: 1;
+  width: 100%;
+  padding: 40px 20px;
+  overflow-y: auto;
+}
+
+.section-fade {
+  display: block;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Az Alapbeállítások gyűjtője */
+.alapozo-kontener {
+  display: block;
+  width: 100%;
+}
+
+/* Címek formázása */
+h1 {
+  font-size: 2.4rem;
+  color: #ffffff;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 1.4rem;
+  color: #58a6ff;
+  margin-bottom: 15px;
+}
+
+h3 {
+  font-size: 1.2rem;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+/* Kiemelt információs dobozok */
+.kod-doboz {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 25px;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.feladat-doboz {
+  background-color: #161b22;
+  border-left: 4px solid #58a6ff;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 0 6px 6px 0;
+  width: 100%;
+}
+
+.warning-doboz {
+  background-color: rgba(248, 81, 73, 0.07);
+  border-left: 4px solid #f85149;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 0 6px 6px 0;
+  width: 100%;
+}
+
+.warning-doboz h3 {
+  color: #f85149;
+}
+
+
+/* >>> ÚJ: Az IP táblázat specifikus javítása az egybefolyás ellen <<< */
+.ip-tablazat {
+  width: 100%;                  /* Kitölti a rendelkezésre álló helyet */
+  border-collapse: collapse;    /* Ne legyen rés a cellák között */
+  margin-top: 10px;             /* Kis távolság az előző szövegtől */
+}
+
+/* Kényszerítsük a cellákat a helyes oszlopos megjelenítésre */
+.ip-tablazat th,
+.ip-tablazat td {
+  display: table-cell;          /* Ez a kulcsfontosságú javítás az egybefolyás ellen! */
+  text-align: left;
+  vertical-align: middle;
+  padding: 10px 15px;           /* Belő hely a szöveg körül, hogy ne legyen zsúfolt */
+  border: 1px solid #30363d;    /* A meglévő panelek keretével egyező szín */
+}
+
+/* Külön stílus a fejlécnek, a meglévő .kod-doboz háttérszínével */
+.ip-tablazat thead {
+  background-color: #161b22;    /* Szinkronban a meglévő panelekkel */
+}
+
+.ip-tablazat th {
+  font-weight: 600;
+  color: #58a6ff;               /* A meglévő kiemelt kék színeddel */
+}
+
+.ip-tablazat td {
+  color: #c9d1d9;               /* Az alapértelmezett szövegszíned */
+}
+
+/* Különleges kiemelés az átjárónak (ha .kiemelt-gw osztályt használsz a kódodban) */
+.ip-tablazat .kiemelt-gw {
+  color: #ffb86c;               /* Narancssárga szín az átjárónak */
+  font-weight: bold;
+}
+
+/* ==========================================
+   5. PARANCS MÁSOLÁSA PANEL (KODBOX)
+   ========================================== */
+.kod-blokk-kontener {
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+
+.kod-magyarazat {
+  color: #8b949e;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.95rem;
+  font-style: italic;
+  margin-bottom: 6px;
+  padding-left: 4px;
+}
+
+/* A tényleges másolható parancssor panele */
+.masolhato-sor {
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-left: 4px solid #30363d;
+  border-radius: 0 6px 6px 0;
+  padding: 14px 18px;
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;                     
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Ha az egér a sor fölé ér, finoman felragyog */
+.masolhato-sor:hover {
+  background-color: #161b22;       
+  border-color: #484f58;
+  border-left-color: #58a6ff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* A konkrét Cisco parancs szövege a dobozban */
+.parancs-szoveg {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  color: #ffffff98;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  word-break: break-all;
+}
+
+/* A modernizált másolás gomb alapállapota */
+.masolas-btn {
+  background-color: #21262d;       
+  color: #c9d1d9;                  
+  border: 1px solid #30363d;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  white-space: nowrap;
+  margin-left: 20px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.masolas-btn:hover {
+  background-color: #30363d;
+  border-color: #8b949e;
+  color: #ffffff;
+}
+
+.masolas-btn:active {
+  transform: scale(0.96);
+}
+
+/* --- ZÖLD SIKERES ÁLLAPOT (Amikor rákattintasz és a copied=true) --- */
+.masolas-btn.siker-halvany {
+  background-color: rgba(35, 134, 54, 0.15) !important;
+  color: #3fb950 !important;
+  border-color: #238636 !important;
+  box-shadow: 0 0 10px rgba(46, 160, 67, 0.3);
+}
+
+
+/* ==========================================
+   6. OLDAL TETEJÉRE PANEL ÉS DEKORÁCIÓK
+   ========================================== */
+.circuit-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40px 0;
+  width: 100%;
+}
+
+.circuit-line {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #30363d, transparent);
+}
+
+.vissza-a-tetejére {
+  background: #21262d;
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 15px;
+  transition: all 0.2s;
+}
+
+.vissza-a-tetejére:hover {
+  border-color: #58a6ff;
+  color: #58a6ff;
+  background-color: #30363d;
+}
+
+.footer-space {
+  margin-bottom: 60px;
+}
+
+/* VLAN listák extra elemei */
+.bekotes-lista {
+  list-style: none;
+  margin-top: 15px;
+}
+
+.bekotes-lista li {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.label-vlan {
+  background-color: #21262d;
+  color: #8b949e;
+  font-size: 0.85rem;
+  font-style: italic;
+  padding: 3px 10px;
+  border-radius: 4px;
+  border: 1px solid #30363d;
+}
+
+.nyil-ikn {
+  color: #58a6ff;
+  font-weight: bold;
+}
+
+
+/* ==========================================
+   7. EXTRA VASTAG GÖRGETŐSÁV (SCROLLBAR)
+   ========================================== */
+::-webkit-scrollbar {
+  width: 18px; 
+}
+
+::-webkit-scrollbar-track {
+  background: #0d1117;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #484f58;        
+  border: 4px solid #0d1117;  
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #107c41;
+  cursor: pointer;
+}
+
+/* Firefox támogatás */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #484f58 #0d1117;
+}
